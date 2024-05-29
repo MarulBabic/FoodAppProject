@@ -68,6 +68,7 @@ public class CartActivity extends BaseActivity {
         binding.orderbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                calculateCart();
                 PaymentFlow();
             }
         });
@@ -272,6 +273,9 @@ public class CartActivity extends BaseActivity {
         binding.deliveryTxt.setText("€"+delivery);
         binding.totalTxt.setText("€"+total);
         saveTotalToFile(total);
+        if(customerID != null && EphericalKey!=null){
+            getClientSecret(customerID,EphericalKey);
+        }
     }
     private void saveTotalToFile(double total) {
         try {
