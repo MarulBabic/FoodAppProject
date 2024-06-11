@@ -1,7 +1,7 @@
 package my.food.foodapp.Domain;
 
 public class Price {
-    private int Id;
+    private Long Id;
     private String Value;
 
     public Price() {
@@ -12,11 +12,11 @@ public class Price {
         return Value;
     }
 
-    public int getId() {
+    public Long getId() {
         return Id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         Id = id;
     }
 

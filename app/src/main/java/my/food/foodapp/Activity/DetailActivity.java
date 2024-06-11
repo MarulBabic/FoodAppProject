@@ -8,6 +8,8 @@ import android.view.View;
 
 import com.bumptech.glide.Glide;
 
+import my.food.foodapp.Api.ApiClient;
+import my.food.foodapp.Api.ApiService;
 import my.food.foodapp.Domain.Foods;
 import my.food.foodapp.Helper.ManagmentCart;
 import my.food.foodapp.R;
@@ -20,12 +22,15 @@ public class DetailActivity extends BaseActivity {
     private int num=1;
     private ManagmentCart managmentCart;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityDetailBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         getWindow().setStatusBarColor(getResources().getColor(R.color.black));
+
+        apiService = ApiClient.getRetrofitInstance().create(ApiService.class);
 
         getIntentExtra();
         setVariable();

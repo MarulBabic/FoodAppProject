@@ -1,7 +1,7 @@
 package my.food.foodapp.Domain;
 
 public class Location {
-    private int Id;
+    private Long Id;
     private String loc;
 
     @Override
@@ -12,11 +12,11 @@ public class Location {
     public Location() {
     }
 
-    public int getId() {
+    public Long getId() {
         return Id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         Id = id;
     }
 

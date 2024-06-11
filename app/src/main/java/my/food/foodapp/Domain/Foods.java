@@ -3,16 +3,16 @@ package my.food.foodapp.Domain;
 import java.io.Serializable;
 
 public class Foods implements Serializable {
-    private int CategoryId;
+    private Long CategoryId;
     private String Description;
     private boolean BestFood;
-    private int Id;
-    private int LocationId;
+    private Long Id;
+    private Long LocationId;
     private double Price;
     private String ImagePath;
-    private int PriceId;
+    private Long PriceId;
     private double Star;
-    private int TimeId;
+    private Long TimeId;
     private int TimeValue;
     private String Title;
     private int numberInCart;
@@ -22,11 +22,11 @@ public class Foods implements Serializable {
         return Title;
     }
 
-    public int getCategoryId() {
+    public Long getCategoryId() {
         return CategoryId;
     }
 
-    public void setCategoryId(int categoryId) {
+    public void setCategoryId(Long categoryId) {
         CategoryId = categoryId;
     }
 
@@ -46,19 +46,19 @@ public class Foods implements Serializable {
         BestFood = bestFood;
     }
 
-    public int getId() {
+    public Long getId() {
         return Id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         Id = id;
     }
 
-    public int getLocationId() {
+    public Long getLocationId() {
         return LocationId;
     }
 
-    public void setLocationId(int locationId) {
+    public void setLocationId(Long locationId) {
         LocationId = locationId;
     }
 
@@ -78,11 +78,11 @@ public class Foods implements Serializable {
         ImagePath = imagePath;
     }
 
-    public int getPriceId() {
+    public Long getPriceId() {
         return PriceId;
     }
 
-    public void setPriceId(int priceId) {
+    public void setPriceId(Long priceId) {
         PriceId = priceId;
     }
 
@@ -94,11 +94,11 @@ public class Foods implements Serializable {
         Star = star;
     }
 
-    public int getTimeId() {
+    public Long getTimeId() {
         return TimeId;
     }
 
-    public void setTimeId(int timeId) {
+    public void setTimeId(Long timeId) {
         TimeId = timeId;
     }
 

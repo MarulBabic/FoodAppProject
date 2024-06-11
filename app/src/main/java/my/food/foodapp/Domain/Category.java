@@ -1,18 +1,18 @@
 package my.food.foodapp.Domain;
 
 public class Category {
-    private int Id;
+    private Long Id;
     private String ImagePath;
     private String Name;
 
     public Category() {
     }
 
-    public int getId() {
+    public Long getId() {
         return Id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.Id = id;
     }
 
