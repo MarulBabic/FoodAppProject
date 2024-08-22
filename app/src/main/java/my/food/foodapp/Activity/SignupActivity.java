@@ -15,6 +15,8 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 
+import java.io.IOException;
+
 import my.food.foodapp.Domain.Users;
 import my.food.foodapp.FeatureFlag;
 import my.food.foodapp.databinding.ActivitySignupBinding;
@@ -62,12 +64,15 @@ public class SignupActivity extends BaseActivity {
                     return;
                 }
 
+                //dohvacanje userType
+                String userType = binding.radioUser.isChecked() ? "user" : "chef";
+
                 String backendService = FeatureFlag.getBackendService(SignupActivity.this);
 
                 if("firebase".equals(backendService)){
                     signupWithFirebase(email, password, fName, lName);
                 }else{
-                    signupWithSpring(email, password, fName, lName);
+                    signupWithSpring(email, password, fName, lName,userType);
                 }
 
             }
@@ -103,28 +108,58 @@ public class SignupActivity extends BaseActivity {
         });
     }
 
-    private void signupWithSpring(String email, String password, String fName, String lName) {
+    private void signupWithSpring(String email, String password, String fName, String lName,String userType) {
         Users user = new Users();
         user.setFirstName(fName);
         user.setLastName(lName);
         user.setEmail(email);
         user.setPassword(password);
+        user.setUserType(userType);
 
         Call<ResponseBody> call = apiService.registerUser(user);
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                int statusCode = response.code();
+                Log.d(TAG, "HTTP Status Code: " + statusCode);
                 if(response.isSuccessful()){
-                    startActivity(new Intent(SignupActivity.this, MainActivity.class));
-                    finish();
+                    try {
+                        //Pretvaramo tijelo odgovora u string
+                        String responseData = response.body().string();
+                        Log.d(TAG, "Response data: " + responseData);
+
+                        //provjera jeli odgovor numericki
+                        if(isNumeric(responseData)){
+                            long userId = Long.parseLong(responseData);
+                            saveUserId(userId);
+                            if ("user".equals(userType)) {
+                                startActivity(new Intent(SignupActivity.this, MainActivity.class));
+                            } else {
+                                startActivity(new Intent(SignupActivity.this, ChefActivity.class));
+                            }
+                            finish();
+                        }else{
+                            Toast.makeText(SignupActivity.this, "Invalid response format", Toast.LENGTH_SHORT).show();
+                        }
+                    } catch (IOException e){
+                        e.printStackTrace();
+                        Toast.makeText(SignupActivity.this, "Failed to read response", Toast.LENGTH_SHORT).show();
+                    } catch (NumberFormatException e) {
+                        e.printStackTrace();
+                        Toast.makeText(SignupActivity.this, "Failed to parse user ID", Toast.LENGTH_SHORT).show();
+                    }
                 }else{
                     Toast.makeText(SignupActivity.this, "Registration failed. Please try again.", Toast.LENGTH_SHORT).show();
                 }
             }
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Log.e(TAG, "Network error: " + t.getMessage());
                 Toast.makeText(SignupActivity.this, "Registration failed. Please try again.", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+    private boolean isNumeric(String str) {
+        return str != null && str.matches("-?\\d+(\\.\\d+)?");
     }
 }

@@ -77,6 +77,7 @@ public class MainActivity extends BaseActivity {
 
     private void initSpringData() {
         long userId = getCurrentUserIdSpring();
+        Log.d("Spring Data", "Fetching data for userId: " + userId);
         Call<ResponseBody> call = apiService.getUser(userId);
         call.enqueue(new Callback<ResponseBody>() {
             @Override
@@ -92,8 +93,17 @@ public class MainActivity extends BaseActivity {
                                 String firstName = jsonObject.getString("firstName");
                                 String lastName = jsonObject.getString("lastName");
 
-                                binding.fName.setText(firstName);
-                                binding.lName.setText(lastName);
+                                UserDataSingleton userDataSingleton = UserDataSingleton.getInstance();
+                                userDataSingleton.setFirstName(firstName);
+                                userDataSingleton.setLastName(lastName);
+
+                                Log.d("Spring Data", "First Name: " + firstName);
+                                Log.d("Spring Data", "Last Name: " + lastName);
+
+                                runOnUiThread(() -> {
+                                    binding.fName.setText(firstName);
+                                    binding.lName.setText(lastName);
+                                });
                             } else {
                                 Log.e("Spring Data", "Response body is empty");
                             }

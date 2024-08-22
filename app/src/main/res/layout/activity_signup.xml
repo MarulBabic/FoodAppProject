@@ -8,7 +8,9 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+        android:layout_height="match_parent"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="-88dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -25,19 +27,19 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:gravity="center"
                 android:layout_marginTop="16dp"
+                android:gravity="center"
                 android:orientation="horizontal">
 
                 <TextView
                     android:id="@+id/textView3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
                     android:text="Food"
                     android:textColor="@color/blue_grey"
                     android:textSize="45sp"
-                    android:textStyle="bold"
-                    android:layout_marginEnd="8dp"/>
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/textView4"
@@ -45,7 +47,7 @@
                     android:layout_height="wrap_content"
                     android:text="App"
                     android:textColor="@color/blue_grey"
-                    android:textSize="45sp"/>
+                    android:textSize="45sp" />
             </LinearLayout>
 
             <EditText
@@ -97,35 +99,63 @@
                 android:id="@+id/passEdt"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
+                android:layout_marginStart="32dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="32dp"
-                android:layout_marginStart="32dp"
+                android:background="@drawable/edittext_background"
+                android:ems="10"
                 android:hint="Password"
+                android:inputType="textPassword"
                 android:textAlignment="center"
                 android:textColorHint="@color/blue_grey"
-                android:textSize="16sp"
-                android:ems="10"
-                android:background="@drawable/edittext_background"
-                android:inputType="textPassword"
-                />
+                android:textSize="16sp" />
+
+            <RadioGroup
+                android:id="@+id/userTypeRadioGroup"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="32dp"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/radioUser"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:text="User"
+                    android:textColor="@color/blue_grey"
+                    android:textSize="16sp" />
+
+                <RadioButton
+                    android:id="@+id/radioChef"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:text="Chef"
+                    android:textColor="@color/blue_grey"
+                    android:textSize="16sp" />
+            </RadioGroup>
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/signupBtn"
+                style="@android:style/Widget.Button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Signup"
-                android:background="@drawable/red_button_background"
                 android:layout_margin="32dp"
-                style="@android:style/Widget.Button"
+                android:background="@drawable/red_button_background"
+                android:text="Signup"
                 android:textColor="@color/white"
                 android:textSize="16sp"
-                android:textStyle="bold"/>
+                android:textStyle="bold" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_gravity="center">
+                android:layout_gravity="center"
+                android:orientation="horizontal">
 
                 <TextView
                     android:id="@+id/textView5"
@@ -140,13 +170,13 @@
                     android:id="@+id/loginBtnn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Login"
-                    android:backgroundTint="#3297a8"
-                    android:textColor="@color/white"
+                    android:layout_gravity="center"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="2dp"
-                    android:layout_gravity="center"/>
+                    android:layout_weight="1"
+                    android:backgroundTint="#3297a8"
+                    android:text="Login"
+                    android:textColor="@color/white" />
             </LinearLayout>
 
         </LinearLayout>

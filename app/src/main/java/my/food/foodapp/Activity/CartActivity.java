@@ -28,14 +28,24 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import my.food.foodapp.Adapter.CartAdapter;
+import my.food.foodapp.Api.ApiClient;
+import my.food.foodapp.Api.ApiService;
+import my.food.foodapp.Domain.Foods;
+import my.food.foodapp.Domain.OrderItem;
+import my.food.foodapp.Domain.OrderRequest;
 import my.food.foodapp.Helper.ChangeNumberItemsListener;
 import my.food.foodapp.Helper.ManagmentCart;
 import my.food.foodapp.R;
 import my.food.foodapp.databinding.ActivityCartBinding;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Retrofit;
 
 public class CartActivity extends BaseActivity {
 
@@ -113,10 +123,53 @@ public class CartActivity extends BaseActivity {
         initList();
     }
 
+    private OrderRequest createOrderRequest() {
+        OrderRequest orderRequest = new OrderRequest();
+        orderRequest.setUserId(getCurrentUserIdSpring()); // Postavite ID korisnika
+        orderRequest.setTotalAmount(readTotalFromFile()); // Ukupni iznos
+        orderRequest.setStatus("Pending"); // Postavite početni status narudžbe
+
+        List<OrderItem> orderItems = new ArrayList<>();
+        for (Foods foodItem : managmentCart.getListCart()) {
+            OrderItem orderItem = new OrderItem();
+            orderItem.setProductId(foodItem.getId()); // ID proizvoda iz Foods instance
+            orderItem.setQuantity(foodItem.getNumberInCart()); // Količina iz košarice
+            orderItem.setPrice(foodItem.getPrice()); // Cijena iz Foods instance
+
+            orderItems.add(orderItem);
+        }
+        orderRequest.setItems(orderItems);
+
+        return orderRequest;
+    }
+
     private void onPaymentResult(PaymentSheetResult paymentSheetResult) {
         if(paymentSheetResult instanceof PaymentSheetResult.Completed){
             Toast.makeText(this,"payment success",Toast.LENGTH_SHORT).show();
+
+            OrderRequest orderRequest = createOrderRequest();
+            sendOrderRequestToServer(orderRequest); // Metoda za slanje narudžbe na server
         }
+
+    }
+
+    private void sendOrderRequestToServer(OrderRequest orderRequest) {
+       Call<Void> call= apiService.placeOrder(orderRequest);
+       call.enqueue(new Callback<Void>() {
+           @Override
+           public void onResponse(Call<Void> call, retrofit2.Response<Void> response) {
+               if(response.isSuccessful()){
+                   Toast.makeText(CartActivity.this,"Order placed successfully",Toast.LENGTH_SHORT).show();
+               }else{
+                   Toast.makeText(CartActivity.this,"Failed to place order",Toast.LENGTH_SHORT).show();
+               }
+           }
+
+           @Override
+           public void onFailure(Call<Void> call, Throwable t) {
+               Toast.makeText(CartActivity.this, "Failed to place order, network error", Toast.LENGTH_SHORT).show();
+           }
+       });
 
     }
 

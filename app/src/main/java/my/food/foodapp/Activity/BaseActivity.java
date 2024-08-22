@@ -31,9 +31,10 @@ public class BaseActivity extends AppCompatActivity {
 
     //Spring specific variables
     protected ApiService apiService;
-    private SharedPreferences sharedPreferences;
+    protected SharedPreferences sharedPreferences;
 
     public String TAG = "Marul";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,17 +81,18 @@ public class BaseActivity extends AppCompatActivity {
         return null;
     }
 
+    protected void saveUserId(long id) {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putLong("id", id);
+        editor.apply();
+    }
+
     //Spring methods
     protected long getCurrentUserIdSpring() {
         long userId = sharedPreferences.getLong("id", -1);
         return userId;
     }
 
-    protected void saveUserId(long id) {
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putLong("id", id);
-        editor.apply();
-    }
 
     protected void logoutUser() {
         Call<Void> call = apiService.logout();
