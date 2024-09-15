@@ -8,10 +8,10 @@
     android:focusable="true">
 
     <TextView
-        android:id="@+id/orderStatus"
+        android:id="@+id/totalTxt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Order Status"
+        android:text="Total"
         android:textSize="16sp"
         android:textStyle="bold"/>
 

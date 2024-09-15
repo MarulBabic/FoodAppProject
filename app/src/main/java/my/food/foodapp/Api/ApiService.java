@@ -54,7 +54,7 @@ public interface ApiService {
     Call<List<Foods>> searchFoods(@Query("text") String searchText);
 
     @GET("/api/foods/category")
-    Call<List<Foods>> getFoodsByCategory(@Query("categoryId") int categoryId);
+    Call<List<Foods>> getFoodsByCategory(@Query("categoryId") long categoryId);
 
     @POST("/api/orders")
     Call<Void> placeOrder(@Body OrderRequest orderRequest);
@@ -70,4 +70,10 @@ public interface ApiService {
 
     @PUT("/api/orders/{orderId}/accept")
     Call<Void> acceptOrder(@Path("orderId") long orderId);
+
+    @GET("/api/orders/accepted")
+    Call<List<OrderRequest>> getAcceptedOrdersFromLast24Hours();
+
+    @PUT("/api/orders/{orderId}/ontheway")
+    Call<Void> markOrderAsOnTheWay(@Path("orderId") long orderId);
 }

@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.RadioButton;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -53,6 +54,9 @@ public class SignupActivity extends BaseActivity {
                 final String lName = binding.lnameEdt.getText().toString().trim();
                 String email = binding.userEdt.getText().toString();
                 String password = binding.passEdt.getText().toString();
+                RadioButton radioUser = binding.radioUser;
+                RadioButton radioChef = binding.radioChef;
+                RadioButton radioDelivery = binding.radioDelivery;
 
                 if (TextUtils.isEmpty(fName) || TextUtils.isEmpty(lName) || TextUtils.isEmpty(email) || TextUtils.isEmpty(password)) {
                     Toast.makeText(SignupActivity.this, "All fields are required", Toast.LENGTH_SHORT).show();
@@ -65,7 +69,17 @@ public class SignupActivity extends BaseActivity {
                 }
 
                 //dohvacanje userType
-                String userType = binding.radioUser.isChecked() ? "user" : "chef";
+                String userType;
+                if (radioUser.isChecked()) {
+                    userType = "user";
+                } else if (radioChef.isChecked()) {
+                    userType = "chef";
+                } else if (radioDelivery.isChecked()) {
+                    userType = "delivery";
+                } else {
+                    // Opcionalno: postavite defaultnu vrijednost ako nijedan nije odabran
+                    userType = "unknown";
+                }
 
                 String backendService = FeatureFlag.getBackendService(SignupActivity.this);
 
@@ -121,7 +135,6 @@ public class SignupActivity extends BaseActivity {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 int statusCode = response.code();
-                Log.d(TAG, "HTTP Status Code: " + statusCode);
                 if(response.isSuccessful()){
                     try {
                         //Pretvaramo tijelo odgovora u string
@@ -134,8 +147,10 @@ public class SignupActivity extends BaseActivity {
                             saveUserId(userId);
                             if ("user".equals(userType)) {
                                 startActivity(new Intent(SignupActivity.this, MainActivity.class));
-                            } else {
+                            } else if("chef".equals(userType)) {
                                 startActivity(new Intent(SignupActivity.this, ChefActivity.class));
+                            }else{
+                                startActivity(new Intent(SignupActivity.this, DeliveryActivity.class));
                             }
                             finish();
                         }else{
@@ -149,6 +164,7 @@ public class SignupActivity extends BaseActivity {
                         Toast.makeText(SignupActivity.this, "Failed to parse user ID", Toast.LENGTH_SHORT).show();
                     }
                 }else{
+                    Log.d(TAG, "HTTP Status Code: " + statusCode);
                     Toast.makeText(SignupActivity.this, "Registration failed. Please try again.", Toast.LENGTH_SHORT).show();
                 }
             }

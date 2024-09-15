@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import com.google.firebase.database.DataSnapshot;
@@ -32,7 +33,7 @@ public class ListFoodsActivity extends BaseActivity {
 
     ActivityListFoodsBinding binding;
     private RecyclerView.Adapter adapterListFood;
-    private int categoryId;
+    private long categoryId;
     private String categoryName;
     private String searchText;
     private boolean isSearch;
@@ -101,6 +102,7 @@ public class ListFoodsActivity extends BaseActivity {
             if (isSearch) {
                 call = apiService.searchFoods(searchText);
             } else {
+                Log.d("ListFoodsActivity", "Fetching foods for category ID: " + categoryId);
                 call = apiService.getFoodsByCategory(categoryId);
             }
 
@@ -129,7 +131,7 @@ public class ListFoodsActivity extends BaseActivity {
     }
 
     private void getIntentExtra() {
-        categoryId = getIntent().getIntExtra("CategoryId",0);
+        categoryId = getIntent().getLongExtra("CategoryId",0);
         categoryName = getIntent().getStringExtra("CategoryName");
         searchText = getIntent().getStringExtra("text");
         isSearch = getIntent().getBooleanExtra("isSearch",false);

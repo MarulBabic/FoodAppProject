@@ -15,6 +15,8 @@ import java.util.List;
 import my.food.foodapp.Adapter.OrderRequestAdapter;
 import my.food.foodapp.Domain.OrderRequest;
 import my.food.foodapp.R;
+import my.food.foodapp.databinding.ActivityChefBinding;
+import my.food.foodapp.databinding.ActivityMainBinding;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -22,6 +24,7 @@ import retrofit2.Response;
 // ChefActivity.java
 public class ChefActivity extends BaseActivity {
 
+    private ActivityChefBinding binding;
     private RecyclerView ordersRecyclerView;
     private OrderRequestAdapter orderRequestAdapter;
     private List<OrderRequest> orderRequestList = new ArrayList<>();
@@ -30,7 +33,9 @@ public class ChefActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_chef);
+        binding = ActivityChefBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+       // setContentView(R.layout.activity_chef);
 
 
         ordersRecyclerView = findViewById(R.id.ordersRecyclerView);
@@ -71,7 +76,10 @@ public class ChefActivity extends BaseActivity {
 
         // Initial fetch of orders
         fetchOrders();
+        setVariable();
     }
+
+
 
     private void fetchOrders() {
 
@@ -94,6 +102,15 @@ public class ChefActivity extends BaseActivity {
             @Override
             public void onFailure(Call<List<OrderRequest>> call, Throwable t) {
                 Toast.makeText(ChefActivity.this, "Network error", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void setVariable() {
+        binding.logoutBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                logoutUser();
             }
         });
     }

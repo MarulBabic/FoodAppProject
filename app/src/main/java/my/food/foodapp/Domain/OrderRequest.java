@@ -8,6 +8,15 @@ public class OrderRequest {
     private List<OrderItem> items;
     private double totalAmount;
     private String status;
+    private String address;
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
 
     public Long getOrderId() {
         return orderId;

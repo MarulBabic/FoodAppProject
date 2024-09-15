@@ -25,7 +25,11 @@
         <activity
             android:name=".Activity.ListFoodsActivity"
             android:exported="false" />
-        <activity android:name=".Activity.ChefActivity"
+        <activity
+            android:name=".Activity.DeliveryActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activity.ChefActivity"
             android:exported="false"/>
         <activity
             android:name=".Activity.MainActivity"

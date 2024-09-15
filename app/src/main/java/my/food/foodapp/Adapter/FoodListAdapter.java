@@ -2,6 +2,7 @@ package my.food.foodapp.Adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,6 +44,7 @@ public class FoodListAdapter extends RecyclerView.Adapter<FoodListAdapter.viewho
         holder.timeTxt.setText(items.get(position).getTimeValue() + "min");
         holder.priceTxt.setText("€"+items.get(position).getPrice());
         holder.rateTxt.setText(""+items.get(position).getStar());
+
 
         Glide.with(context)
                 .load(items.get(position).getImagePath())

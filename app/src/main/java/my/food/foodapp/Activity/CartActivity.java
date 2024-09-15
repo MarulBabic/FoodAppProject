@@ -129,6 +129,11 @@ public class CartActivity extends BaseActivity {
         orderRequest.setTotalAmount(readTotalFromFile()); // Ukupni iznos
         orderRequest.setStatus("Pending"); // Postavite početni status narudžbe
 
+        //dodavanje adrese za dostavu
+        String address = binding.addressEditText.getText().toString().trim();
+
+        orderRequest.setAddress(address);
+
         List<OrderItem> orderItems = new ArrayList<>();
         for (Foods foodItem : managmentCart.getListCart()) {
             OrderItem orderItem = new OrderItem();

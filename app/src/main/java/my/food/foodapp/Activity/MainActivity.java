@@ -6,8 +6,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.    RecyclerView;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
+import my.food.foodapp.Domain.OrderRequest;
 import my.food.foodapp.FeatureFlag;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -15,6 +17,7 @@ import retrofit2.Call;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -38,6 +41,7 @@ import my.food.foodapp.Domain.Foods;
 import my.food.foodapp.Domain.Location;
 import my.food.foodapp.Domain.Price;
 import my.food.foodapp.Domain.Time;
+import my.food.foodapp.Domain.OrderRequest;
 import my.food.foodapp.Domain.Users;
 import my.food.foodapp.R;
 import my.food.foodapp.databinding.ActivityMainBinding;
@@ -56,7 +60,18 @@ public class MainActivity extends BaseActivity {
 
 
         apiService = ApiClient.getRetrofitInstance().create(ApiService.class);
-        
+
+        SharedPreferences sharedPreferences = getSharedPreferences("app_prefs", MODE_PRIVATE);
+        long orderId = sharedPreferences.getLong("orderId", -1);
+
+        if (orderId != -1) {
+            showOrderStatus(orderId);
+
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.remove("orderId");
+            editor.apply();
+        }
+
         initData();
         initLocation();
         initTime();
@@ -64,6 +79,10 @@ public class MainActivity extends BaseActivity {
         initBestFood();
         initCategory();
         setVariable();
+    }
+
+    private void showOrderStatus(long orderId) {
+        Toast.makeText(this, "Your order is on the way! Order ID: " + orderId, Toast.LENGTH_LONG).show();
     }
 
     private void initData() {

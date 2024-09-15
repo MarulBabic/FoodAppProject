@@ -98,7 +98,9 @@ public class LoginActivity extends BaseActivity {
                             startActivity(new Intent(LoginActivity.this, MainActivity.class));
                         } else if ("chef".equals(userType)) {
                             startActivity(new Intent(LoginActivity.this, ChefActivity.class));
-                        } else {
+                        } else if ("delivery".equals(userType)) {
+                            startActivity(new Intent(LoginActivity.this, DeliveryActivity.class));
+                        }else{
                             Toast.makeText(LoginActivity.this, "Unknown user type", Toast.LENGTH_SHORT).show();
                         }
                         finish();

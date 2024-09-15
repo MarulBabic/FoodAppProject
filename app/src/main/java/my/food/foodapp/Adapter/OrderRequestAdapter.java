@@ -44,6 +44,11 @@ public class OrderRequestAdapter extends RecyclerView.Adapter<OrderRequestAdapte
 
     }
 
+    public void updateOrders(List<OrderRequest> newOrders) {
+        this.orderRequests = newOrders;
+        notifyDataSetChanged();
+    }
+
     @Override
     public int getItemCount() {
         return orderRequests.size();
@@ -58,14 +63,13 @@ public class OrderRequestAdapter extends RecyclerView.Adapter<OrderRequestAdapte
 
         public OrderRequestViewHolder(@NonNull View itemView) {
             super(itemView);
-            orderStatusView = itemView.findViewById(R.id.orderStatus);
+            orderStatusView = itemView.findViewById(R.id.totalTxt);
             orderTotalAmountView = itemView.findViewById(R.id.orderTotalAmount);
             orderItemsRecyclerView = itemView.findViewById(R.id.orderItemsRecyclerView);
             acceptOrderButton = itemView.findViewById(R.id.acceptOrderButton);
         }
 
         public void bind(final OrderRequest orderRequest, final OnOrderClickListener listener) {
-            orderStatusView.setText(orderRequest.getStatus());
             orderTotalAmountView.setText(String.valueOf(orderRequest.getTotalAmount()));
 
             OrderItemAdapter orderItemAdapter = new OrderItemAdapter(orderRequest.getItems());
