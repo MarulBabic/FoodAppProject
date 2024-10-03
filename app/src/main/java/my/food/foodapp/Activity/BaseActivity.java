@@ -63,6 +63,19 @@ public class BaseActivity extends AppCompatActivity {
         sharedPreferences = getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE);
     }
 
+    @Override
+    protected void onStop(){
+        super.onStop();
+
+        clearUserData();
+    }
+
+    private void clearUserData(){
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.clear();
+        editor.apply();
+    }
+
 
     //Firebase methods
     protected String getCurrentUserIdFirebase() {
